@@ -21,7 +21,11 @@ app.get('/api/students', (req, res, next) => {
 });
 
 // Route  /api/schools
-
+app.get('/api/schools', (req, res, next) => {
+  School.findAll()
+  .then(schools => res.send(schools))
+  .catch(next)
+});
 
 db.syncAndSeed()
 .then(() => {
