@@ -8,8 +8,7 @@ const path = require('path');
 
 const port = process.env.PORT || 3010;
 
-//CHANGE TO db.syncAndSeed & .then
-app.listen(port, ()=> console.log(`listening on port ${port}`));
+
 
 //Home page
 app.get('/', (req, res, next) => res.sendFile(path.join(__dirname, "index.html")));
@@ -24,3 +23,7 @@ app.get('/api/students', (req, res, next) => {
 // Route  /api/schools
 
 
+db.syncAndSeed()
+.then(() => {
+app.listen(port, ()=> console.log(`listening on port ${port}`))
+});
