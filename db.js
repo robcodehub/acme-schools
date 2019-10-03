@@ -56,7 +56,7 @@ const syncAndSeed = async() => {
     {firstName: "Sally", lastName: "Smarts", email: "sally@smarts.com", GPA: 4.0}
   ];
 
-  const [student1, student2, student3, student3, student5] = Students.map(student => Student.create(student));
+  const [student1, student2, student3, student4, student5] = Students.map(student => Student.create(student));
 
 
 }; //END SYNC AND SEED
