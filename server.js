@@ -32,24 +32,24 @@ app.get('/api/schools', (req, res, next) => {
 //CREATE A STUDENT ROUTE - POST ROUTE
 //RETURN CREATED STUDENT WITH REDUX
 //SEND INFO BACK TO FRONT END TO UPDATE STATE
-/*
+
 app.post('/api/students', (req, res, next) => {
   Student.create(req.body)
   .then(newStudent => res.status(201).send(newStudent))
   .catch(next)
 });
-*/
+
 //DELETE A STUDENT - DELETE ROUTE
 //DELETED STUDENT NOT RETURNED
 //CHECK IF SUCCESSFUL OR NOT AND THEN DELETE STUDENT ON FRONT END
-/*
+
 app.delete('/api/students/:id', (req, res, next) => {
   Student.findByPk(req.params.id)
   .then(currentStudent => currentStudent.destroy())
   .then(() => res.sendStatus(204))
   .catch(next)
 });
-*/
+
 
 //UPDATE A STUDENT - PUT ROUTE OR PATCH ROUTE
 //PATCH ROUTE FOR A SPECIFIC FIELD - UPDATE SCHOOL FOR STUDENT
