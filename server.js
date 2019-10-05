@@ -27,7 +27,7 @@ app.get('/api/students', (req, res, next) => {
 //SEND INFO BACK TO FRONT END TO UPDATE STATE
 app.post('/api/students', (req, res, next) => {
   Student.create(req.body)
-  .then(newStudent => res.send(newStudent))
+  .then(newStudent => res.status(201).send(newStudent))
   .catch(next)
 });
 
