@@ -30,12 +30,22 @@ const Student = conn.define('student', {
   GPA: DECIMAL
 });
 
+//STUDENT HAS SCHOOL ID - CONNECT STUDENT TO SCHOOL
+//CONNECT SCHOOL TO STUDENT
 Student.belongsTo(School);
 School.hasMany(Student);
+
+//SHOW MOST POPULAR SCHOOL - EITHER FRONT END FILTER OR SEQUELIZE CLASS METHOD ON SCHOOL
+//SCHOOL.MOSTPOPULARSCHOOL = FUNCTION....
+
+//SHOW HIGHEST GPA SCHOOL - EITHER FRONT END FILTER OR SEQUELIZE CLASS METHOD ON SCHOOL
+//SCHOOL.HIGHESTGPA = FUNCTION....
 
 
 const syncAndSeed = async() => {
   await conn.sync({force: true});
+
+  //SEED DATA IN CORRECT ORDER
 
   const schools = [
     {name: "MIT", imageURL: "https://upload.wikimedia.org/wikipedia/commons/0/0c/MIT_logo.svg"},
