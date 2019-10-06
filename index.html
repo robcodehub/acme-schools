@@ -15,6 +15,13 @@
     <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.js'></script>
     -->
 
+    <style>
+      nav {
+        display: flex;
+        justify-content: space-around;
+      }
+    </style>
+
 </head>
 
 <body>
@@ -28,8 +35,11 @@
 
   <script type='text/babel'>
 
+    const { createStore, conbineReducers } = Redux;
+    const { HashRouter, Link, Route } = ReactRouterDOM;
 
-    //STEP 2 - BUILD FRONT END FORM AND BUTTONS ETC.
+
+        //STEP 2 - BUILD FRONT END FORM AND BUTTONS ETC.
 
     // keep your redux store as simple as possible, a list of students, and schools will be suffice
     //USE CDNS FOR REDUX ETC.
@@ -39,6 +49,79 @@
 
     //REDUX PATTERNS - FOCUS ON THESE AND PRACTICE
 
+
+//HOME COMPONENT
+const Home = () => {
+  return (
+    <div>
+      HOME COMING SOON....
+    </div>
+  )
+}
+
+//SCHOOLS COMPONENT
+
+const Schools = () => {
+  return (
+    <div>
+      SCHOOLS COMING SOON...
+    </div>
+  )
+}
+
+
+//STUDENTS COMPONENT
+const Students = () => {
+  return (
+    <div>
+      STUDENTS COMING SOON...
+    </div>
+  )
+}
+
+
+
+//NAV COMPONENT
+
+const Nav = () => {
+  return (
+    <nav>
+      <Link to='/'>Home</Link>
+      <Link to='/api/schools'>Schools</Link>
+      <Link to='/api/students'>Students</Link>
+    </nav>
+  )
+}
+
+
+
+
+//REACT MAIN APP CLASS COMPONENT
+
+class App extends React.Component {
+
+  constructor() {
+    super();
+    this.state = {
+    }
+  }
+
+
+  render() {
+    return (
+      <HashRouter>
+        <Route component = { Nav } />
+        <Route path='/' component ={Home} exact/>
+        <Route path='/api/students' component={Students} />
+        <Route path='/api/schools' component={Schools} />
+      </HashRouter>
+    )
+  }
+}
+
+
+
+ReactDOM.render(<App />, document.querySelector('#root'));
 
 
 
