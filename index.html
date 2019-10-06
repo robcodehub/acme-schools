@@ -38,7 +38,7 @@
     const { createStore, combineReducers } = Redux;
     const { HashRouter, Link, Route } = ReactRouterDOM;
     const SET_STUDENTS = 'SET_STUDENTS';
-
+    const DELETE_STUDENT = 'DELETE_STUDENT';
 
     //REDUX STORE STARTS HERE
 
@@ -47,6 +47,8 @@
         students: (state = [], action) => {
           if (action.type === SET_STUDENTS) {
             state = action.students;
+          } else if (action.type === DELETE_STUDENT) {
+            state = state.filter(student => student.id !== action.student.id);
           }
           return state;
         }
@@ -59,6 +61,11 @@
     //REDUX / AXIOS - FETCH DATA AND ADD TO STORE
 
     const fetchStudents = async() => store.dispatch({type: SET_STUDENTS, students: (await axios.get('/api/students')).data})
+
+    const deleteStudent = async(student) => {
+      await axios.delete(`/api/students/${student.id}`);
+      store.dispatch({type: DELETE_STUDENT, student})
+    };
 
 
     const connect = (Component) => {
@@ -118,11 +125,12 @@ const Schools = () => {
 
 //STUDENTS COMPONENT
 const Students = connect(({ students }) => {
+  console.log(students);
   return (
     <div>
         <br /> <br /> {students.length} students: <br /><br />
       <div>
-        {students.map(student => <div> {student.firstName} {student.lastName} <br /> GPA: {student.GPA} <br /> <br /> </div>)}
+        {students.map(student => <div key = {student.id}> {student.firstName} {student.lastName} <br /> GPA: {student.GPA} <br /> <button onClick={() => deleteStudent(student)}>Delete Student</button><br /> <br /></div>)}
       </div>
     </div>
   )
