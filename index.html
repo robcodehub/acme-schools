@@ -120,14 +120,31 @@
     //REDUX PATTERNS - FOCUS ON THESE AND PRACTICE
 
 
-//HOME COMPONENT
-const Home = () => {
+const addStudentForm = () => {
   return (
     <div>
-      HOME COMING SOON....
+    <br /> <br />
+    First Name: <br /> <br />
+    Last Name: <br /> <br />
+    Email: <br /> <br />
+    GPA: <br /> <br />
+    Enroll at: <br /> <br />
+    <button> Save</button>
+    <br /> <br />
     </div>
   )
-}
+};
+
+//HOME COMPONENT
+const Home = connect(({students, schools}) => {
+  return (
+    <div>
+      <br /> <br />
+      There are {students.length} students  and {schools.length} schools in the database
+      {addStudentForm()}
+    </div>
+  )
+})
 
 //SCHOOLS COMPONENT
 
