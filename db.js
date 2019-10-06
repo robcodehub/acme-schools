@@ -38,9 +38,16 @@ School.hasMany(Student);
 //SHOW MOST POPULAR SCHOOL - EITHER FRONT END FILTER OR SEQUELIZE CLASS METHOD ON SCHOOL
 //SCHOOL.MOSTPOPULARSCHOOL = FUNCTION....
 
+School.mostPopularSchool = function() {
+
+};
+
 
 //SHOW HIGHEST GPA SCHOOL - EITHER FRONT END FILTER OR SEQUELIZE CLASS METHOD ON SCHOOL
 //SCHOOL.HIGHESTGPA = FUNCTION....
+School.highestGPA = function() {
+
+};
 
 
 const syncAndSeed = async() => {
