@@ -35,9 +35,35 @@
 
   <script type='text/babel'>
 
-    const { createStore, conbineReducers } = Redux;
+    const { createStore, combineReducers } = Redux;
     const { HashRouter, Link, Route } = ReactRouterDOM;
+    const SET_STUDENTS = 'SET_STUDENTS';
 
+
+    //REDUX STORE STARTS HERE
+
+    //REDUX - COMBINE REDUCERS
+    const reducer = combineReducers({
+        students: (state = [], action) => {
+          if (action.type === SET_STUDENTS) {
+            state = action.students;
+          }
+          return state;
+        }
+      });
+
+    //REDUX - CREATE REDUX STORE
+    const store = createStore(reducer);
+
+
+    //REDUX / AXIOS - FETCH DATA AND ADD TO STORE
+
+    const fetchStudents = async() => store.dispatch({type: SET_STUDENTS, students: (await axios.get('/api/students')).data})
+
+
+    const connect = (Component) => {
+
+    }
 
         //STEP 2 - BUILD FRONT END FORM AND BUTTONS ETC.
 
