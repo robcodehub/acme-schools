@@ -117,13 +117,13 @@ const Schools = () => {
 
 
 //STUDENTS COMPONENT
-const Students = () => {
+const Students = connect(({ students }) => {
   return (
     <div>
-      STUDENTS COMING SOON...
+      {students.length} STUDENTS COMING SOON...
     </div>
   )
-}
+});
 
 
 
