@@ -120,7 +120,10 @@ const Schools = () => {
 const Students = connect(({ students }) => {
   return (
     <div>
-      {students.length} STUDENTS COMING SOON...
+      {students.length} students:
+      <ul>
+        {students.map(student => <li> {student.firstName} {student.lastName}</li>)}
+      </ul>
     </div>
   )
 });
