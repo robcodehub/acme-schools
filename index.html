@@ -37,8 +37,10 @@
 
     const { createStore, combineReducers } = Redux;
     const { HashRouter, Link, Route } = ReactRouterDOM;
+
     const SET_STUDENTS = 'SET_STUDENTS';
     const DELETE_STUDENT = 'DELETE_STUDENT';
+    const SET_SCHOOLS = 'SET_SCHOOLS';
 
     //REDUX STORE STARTS HERE
 
@@ -49,10 +51,17 @@
             state = action.students;
           } else if (action.type === DELETE_STUDENT) {
             state = state.filter(student => student.id !== action.student.id);
+          } return state;
+          },
+          schools: (state = [], action) => {
+            if (action.type === SET_SCHOOLS) {
+            state = action.schools;
           }
           return state;
         }
-      });
+        });
+
+
 
     //REDUX - CREATE REDUX STORE
     const store = createStore(reducer);
@@ -60,12 +69,20 @@
 
     //REDUX / AXIOS - FETCH DATA AND ADD TO STORE
 
+
+    //FETCH / DELETE AND ADD STUDENTS
+
     const fetchStudents = async() => store.dispatch({type: SET_STUDENTS, students: (await axios.get('/api/students')).data})
 
     const deleteStudent = async(student) => {
       await axios.delete(`/api/students/${student.id}`);
       store.dispatch({type: DELETE_STUDENT, student})
     };
+
+
+    //FETCH SCHOOLS
+
+    const fetchSchools = async() => store.dispatch({type: SET_SCHOOLS, schools: (await axios.get('/api/schools')).data})
 
 
     const connect = (Component) => {
@@ -114,13 +131,15 @@ const Home = () => {
 
 //SCHOOLS COMPONENT
 
-const Schools = () => {
+const Schools = connect(({ schools }) => {
+  console.log(schools);
   return (
     <div>
-      SCHOOLS COMING SOON...
+      <br /> <br /> {schools.length} schools: <br /> <br />
+      {schools.map(school => <div key = {school.id}> {school.name} </div>) }
     </div>
   )
-}
+});
 
 
 //STUDENTS COMPONENT
@@ -140,17 +159,19 @@ const Students = connect(({ students }) => {
 
 //NAV COMPONENT
 
-const Nav = connect(({ students }) => {
+const Nav = connect(({ students, schools }) => {
   return (
     <nav>
       <Link to='/'>Home</Link>
-      <Link to='/api/schools'>Schools</Link>
+      <Link to='/api/schools'>Schools ({schools.length}) </Link>
       <Link to='/api/students'>Students ({students.length})</Link>
     </nav>
   )
 })
 
 
+
+//CREATE A COMPONENT TO CREATE A NEW STUDENT
 
 
 //REACT MAIN APP CLASS COMPONENT
@@ -166,6 +187,7 @@ class App extends React.Component {
 
 componentDidMount(){
       fetchStudents();
+      fetchSchools();
     }
 
   render() {
