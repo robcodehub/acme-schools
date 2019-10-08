@@ -47,6 +47,7 @@
     const SET_STUDENTS = 'SET_STUDENTS';
     const DELETE_STUDENT = 'DELETE_STUDENT';
     const SET_SCHOOLS = 'SET_SCHOOLS';
+    const CREATE_STUDENT = 'CREATE_STUDENT'
 
 
     //=========START REDUX STORE=================
@@ -97,6 +98,13 @@
     };
 
 
+    //=============================================
+    //CREATE CREATESTUDENT NEXT
+    //
+    //
+    //
+    //
+    //=============================================
 
     //FETCH SCHOOLS
     const fetchSchools = async() => store.dispatch({type: SET_SCHOOLS, schools: (await axios.get('/api/schools')).data})
