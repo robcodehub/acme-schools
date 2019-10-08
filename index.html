@@ -102,34 +102,6 @@
     const fetchSchools = async() => store.dispatch({type: SET_SCHOOLS, schools: (await axios.get('/api/schools')).data})
 
 
-//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-//THIS IS TO BE REMOVED AND REPLACED WITH UPDATED REACT-REDUX CONNECT COMPONENT
-//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
- /*   const connectOld = (Component) => {
-      class Connected extends React.Component {
-        constructor() {
-          super();
-          this.state = store.getState();
-        }
-      componentWillUnmount(){
-        this.unsubscribe();
-      }
-      componentDidMount() {
-        this.unsubscribe = store.subscribe(() => this.setState(store.getState()));
-      }
-      render() {
-        return (
-          <Component {...this.state}{...this.props} />
-        );
-      }
-    }
-      return Connected;
-    }
-
-    */
-    //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-    //XXXXXXXXXXXXXXXX END REMOVED CONNECT CODE XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-    //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
         //STEP 2 - BUILD FRONT END FORM AND BUTTONS ETC.
     // keep your redux store as simple as possible, a list of students, and schools will be suffice
