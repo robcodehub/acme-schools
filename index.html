@@ -20,6 +20,18 @@
         display: flex;
         justify-content: space-around;
       }
+
+      input {
+        margin: 0.5rem;
+        padding: 0.5rem;
+        display: flex;
+      }
+
+      .school-section {
+        border: 0.5rem red solid;
+        display: flex;
+      }
+
     </style>
 
 </head>
@@ -120,19 +132,21 @@
     //REDUX PATTERNS - FOCUS ON THESE AND PRACTICE
 
 
-const addStudentForm = () => {
+const AddStudentForm = () => {
   return (
     <div>
-    <br /> <br />
-    First Name: <input type="text" /> <br /> <br />
-    Last Name: <input type="text" />  <br /> <br />
-    Email: <input type="email" /> <br /> <br />
-    GPA:  <input type="text" /> <br /> <br />
-    Enroll at:  <select>
+    <form>
+    First Name: <input type="text" />
+    Last Name: <input type="text" />
+    Email: <input type="email" />
+    GPA:  <input type="text" />
+    Enroll at:
+    <select>
   <option value="Harvard">Harvard</option>
-</select> <br /> <br />
+</select>
+
     <button> Save</button>
-    <br /> <br />
+    </form>
     </div>
   )
 };
@@ -143,7 +157,7 @@ const Home = connect(({students, schools}) => {
     <div>
       <br /> <br />
       There are {students.length} students  and {schools.length} schools in the database
-      {addStudentForm()}
+      <AddStudentForm />
     </div>
   )
 })
@@ -154,8 +168,9 @@ const Schools = connect(({ schools }) => {
   console.log(schools);
   return (
     <div>
-      <br /> <br /> {schools.length} schools: <br /> <br />
-      {schools.map(school => <div key = {school.id}> <br/> <br/> {school.name} <br /> <br /> <img src={school.imageURL} height="200" width="200"/><br /> <br /> </div>) }
+      <AddStudentForm />
+      {schools.length} schools:
+      {schools.map(school => <div className="school-section" key = {school.id}> {school.name} <img src={school.imageURL} height="200" width="200"/> </div>) }
     </div>
   )
 });
@@ -166,6 +181,7 @@ const Students = connect(({ students }) => {
   console.log(students);
   return (
     <div>
+      <AddStudentForm />
         <br /> <br /> {students.length} students: <br /><br />
       <div>
         {students.map(student => <div key = {student.id}> {student.firstName} {student.lastName} <br /> GPA: {student.GPA} <br /> <button onClick={() => deleteStudent(student)}>Delete Student</button><br /> <br /></div>)}
