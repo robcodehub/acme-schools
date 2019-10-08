@@ -139,7 +139,7 @@
     //REDUX PATTERNS - FOCUS ON THESE AND PRACTICE
 
 
-const AddStudentForm = () => {
+const _AddStudentForm = ({students, schools}) => {
   return (
     <div>
       <form>
@@ -156,6 +156,13 @@ const AddStudentForm = () => {
     </div>
   )
 };
+
+const AddStudentForm = connect(({students, schools}) => {
+  return {
+    students,
+    schools
+  }
+})(_AddStudentForm)
 
 
 //HOME COMPONENT
