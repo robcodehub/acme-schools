@@ -134,6 +134,10 @@ const AddStudentForm = connect(({students, schools}) => {
   return {
     students,
     schools
+  }, (dispatch) => {
+    return {
+      create: (student) => dispatch(createStudent(student))
+    }
   }
 })(_AddStudentForm)
 
