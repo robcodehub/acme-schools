@@ -43,7 +43,7 @@
   <script type='text/babel'>
     const { createStore, combineReducers } = Redux;
     const { HashRouter, Link, Route } = ReactRouterDOM;
-    const { connect } = ReactRedux;
+    const { connect, Provider } = ReactRedux;
     const SET_STUDENTS = 'SET_STUDENTS';
     const DELETE_STUDENT = 'DELETE_STUDENT';
     const SET_SCHOOLS = 'SET_SCHOOLS';
@@ -142,17 +142,17 @@
 const AddStudentForm = () => {
   return (
     <div>
-    <form>
-    First Name: <input type="text" />
-    Last Name: <input type="text" />
-    Email: <input type="email" />
-    GPA:  <input type="text" />
-    Enroll at:
-    <select>
-  <option value="Harvard">Harvard</option>
-</select>
-    <button> Save</button>
-    </form>
+      <form>
+        First Name: <input type="text" />
+        Last Name: <input type="text" />
+        Email: <input type="email" />
+        GPA:  <input type="text" />
+        Enroll at:
+        <select>
+          <option value="Harvard">Harvard</option>
+        </select>
+        <button> Save</button>
+      </form>
     </div>
   )
 };
@@ -199,7 +199,7 @@ const Students = connectOld(({ students }) => {
 
 
 //NAV COMPONENT
-const Nav = connectOld(({ students, schools }) => {
+const _Nav = ({ students, schools }) => {
   return (
     <nav>
       <Link to='/'>Home</Link>
@@ -207,7 +207,16 @@ const Nav = connectOld(({ students, schools }) => {
       <Link to='/api/students'>Students ({students.length})</Link>
     </nav>
   )
-})
+};
+
+
+const Nav = connect(({ students, schools }) => {
+  return {
+    students,
+    schools
+  }
+})(_Nav)
+
 
 
 //CREATE A COMPONENT TO CREATE A NEW STUDENT
@@ -235,7 +244,7 @@ componentDidMount(){
 }
 
 
-ReactDOM.render(<App />, document.querySelector('#root'));
+ReactDOM.render(<Provider store = { store }><App /></Provider>, document.querySelector('#root'));
 
 
   </script>
