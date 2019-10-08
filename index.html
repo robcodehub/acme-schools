@@ -45,34 +45,62 @@
     const SET_STUDENTS = 'SET_STUDENTS';
     const DELETE_STUDENT = 'DELETE_STUDENT';
     const SET_SCHOOLS = 'SET_SCHOOLS';
-    //REDUX STORE STARTS HERE
-    //REDUX - COMBINE REDUCERS
-    const reducer = combineReducers({
-        students: (state = [], action) => {
+
+
+    //=========START REDUX STORE=================
+    //===========================================
+
+    // REDUX - REDUCERS
+
+    const studentReducer = (state = [], action) => {
           if (action.type === SET_STUDENTS) {
-            state = action.students;
-          } else if (action.type === DELETE_STUDENT) {
-            state = state.filter(student => student.id !== action.student.id);
-          } return state;
-          },
-          schools: (state = [], action) => {
-            if (action.type === SET_SCHOOLS) {
+              state = action.students;
+            } else if (action.type === DELETE_STUDENT) {
+              state = state.filter(student => student.id !== action.student.id);
+          }
+          return state;
+    };
+
+    const schoolReducer = (state = [], action) => {
+          if (action.type === SET_SCHOOLS) {
             state = action.schools;
           }
           return state;
-        }
-        });
+        };
+
+    //REDUX - COMBINE REDUCERS
+    const reducer = combineReducers({
+      students: studentReducer,
+      schools: schoolReducer
+    });
+
+
     //REDUX - CREATE REDUX STORE
     const store = createStore(reducer);
+
+
+    //===========END REDUX STORE=================
+    //===========================================
+
+
+
     //REDUX / AXIOS - FETCH DATA AND ADD TO STORE
     //FETCH / DELETE AND ADD STUDENTS
     const fetchStudents = async() => store.dispatch({type: SET_STUDENTS, students: (await axios.get('/api/students')).data})
+
+
     const deleteStudent = async(student) => {
       await axios.delete(`/api/students/${student.id}`);
       store.dispatch({type: DELETE_STUDENT, student})
     };
+
+
+
     //FETCH SCHOOLS
     const fetchSchools = async() => store.dispatch({type: SET_SCHOOLS, schools: (await axios.get('/api/schools')).data})
+
+
+
     const connect = (Component) => {
       class Connected extends React.Component {
         constructor() {
@@ -100,6 +128,8 @@
     //REDUCERS FOR STUDENTS - LIST OF STUDENTS AND CURRENT STUDENT
     //COMBINE REDUCERS TO COMBINE THEM
     //REDUX PATTERNS - FOCUS ON THESE AND PRACTICE
+
+
 const AddStudentForm = () => {
   return (
     <div>
@@ -117,6 +147,8 @@ const AddStudentForm = () => {
     </div>
   )
 };
+
+
 //HOME COMPONENT
 const Home = connect(({students, schools}) => {
   return (
@@ -127,6 +159,8 @@ const Home = connect(({students, schools}) => {
     </div>
   )
 })
+
+
 //SCHOOLS COMPONENT
 const Schools = connect(({ schools }) => {
   console.log(schools);
@@ -138,6 +172,8 @@ const Schools = connect(({ schools }) => {
     </div>
   )
 });
+
+
 //STUDENTS COMPONENT
 const Students = connect(({ students }) => {
   console.log(students);
@@ -151,6 +187,8 @@ const Students = connect(({ students }) => {
     </div>
   )
 });
+
+
 //NAV COMPONENT
 const Nav = connect(({ students, schools }) => {
   return (
@@ -161,6 +199,8 @@ const Nav = connect(({ students, schools }) => {
     </nav>
   )
 })
+
+
 //CREATE A COMPONENT TO CREATE A NEW STUDENT
 //REACT MAIN APP CLASS COMPONENT
 class App extends React.Component {
@@ -184,7 +224,11 @@ componentDidMount(){
     )
   }
 }
+
+
 ReactDOM.render(<App />, document.querySelector('#root'));
+
+
   </script>
 </body>
 
