@@ -207,7 +207,7 @@ const AddStudentForm = connect(mapStateToProps, mapDispatchToProps)((props) => {
 
 //connect()( (props) => {})
 //HOME COMPONENT
-const Home = connect()(({students, schools}) => {
+const Home = ({students, schools}) => {
   return (
     <div>
       <br /> <br />
@@ -215,11 +215,13 @@ const Home = connect()(({students, schools}) => {
       <AddStudentForm />
     </div>
   )
-});
+};
+
+connect(mapStateToProps()(Home));
 
 //SCHOOLS COMPONENT
 
-const Schools = connect()(({schools})=> {
+const Schools = ({schools})=> {
   console.log(schools);
   return (
     <div>
@@ -228,11 +230,12 @@ const Schools = connect()(({schools})=> {
       {schools.map(school => <div className="school-section" key = {school.id}> {school.name} <img src={school.imageURL} height="200" width="200"/> </div>) }
     </div>
   )
-});
+};
 
+connect(mapStateToProps()(Schools));
 
 //STUDENTS COMPONENT
-const Students = connect()(({students}) => {
+const Students = ({students}) => {
   console.log(students);
   return (
     <div>
@@ -243,19 +246,21 @@ const Students = connect()(({students}) => {
       </div>
     </div>
   )
-});
+};
 
+connect(mapStateToProps()(Students));
 
-const Nav = connect()(({students, schools})=> {return(
+const Nav = ({students, schools}) => {
+  return(
     <nav>
       <Link to='/'>Home</Link>
       <Link to='/api/schools'>Schools ({schools.length}) </Link>
       <Link to='/api/students'>Students ({students.length})</Link>
     </nav>
   )
-}
-)
+  };
 
+  connect(mapStateToProps()(Nav));
 
 
 //CREATE A COMPONENT TO CREATE A NEW STUDENT
