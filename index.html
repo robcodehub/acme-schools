@@ -159,7 +159,7 @@ const AddStudentForm = () => {
 
 
 //HOME COMPONENT
-const Home = connectOld(({students, schools}) => {
+const _Home = ({students, schools}) => {
   return (
     <div>
       <br /> <br />
@@ -167,11 +167,18 @@ const Home = connectOld(({students, schools}) => {
       <AddStudentForm />
     </div>
   )
-})
+}
+
+const Home = connect(({students, schools}) => {
+  return {
+    students,
+    schools
+  }
+})(_Home)
 
 
 //SCHOOLS COMPONENT
-const Schools = connectOld(({ schools }) => {
+const _Schools = ({ schools }) => {
   console.log(schools);
   return (
     <div>
@@ -180,11 +187,17 @@ const Schools = connectOld(({ schools }) => {
       {schools.map(school => <div className="school-section" key = {school.id}> {school.name} <img src={school.imageURL} height="200" width="200"/> </div>) }
     </div>
   )
-});
+};
 
+//SCHOOLS REDUX CONNECTED
+const Schools = connect(({schools}) => {
+  return {
+    schools
+  }
+})(_Schools)
 
 //STUDENTS COMPONENT
-const Students = connectOld(({ students }) => {
+const _Students = ({ students }) => {
   console.log(students);
   return (
     <div>
@@ -195,7 +208,16 @@ const Students = connectOld(({ students }) => {
       </div>
     </div>
   )
-});
+};
+
+//STUDENTS REDUX CONNECTED
+const Students = connect(({students}) => {
+  return {
+    students
+  }
+})(_Students)
+
+
 
 
 //NAV COMPONENT
@@ -210,6 +232,7 @@ const _Nav = ({ students, schools }) => {
 };
 
 
+//NAV REDUX CONNECT COMPONENT
 const Nav = connect(({ students, schools }) => {
   return {
     students,
