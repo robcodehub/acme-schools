@@ -9,6 +9,7 @@
     <script src='https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/redux/4.0.4/redux.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/react-redux/7.1.1/react-redux.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/react-router-dom/5.0.1/react-router-dom.js'></script>
 
 
@@ -42,6 +43,7 @@
   <script type='text/babel'>
     const { createStore, combineReducers } = Redux;
     const { HashRouter, Link, Route } = ReactRouterDOM;
+    const { connect } = ReactRedux;
     const SET_STUDENTS = 'SET_STUDENTS';
     const DELETE_STUDENT = 'DELETE_STUDENT';
     const SET_SCHOOLS = 'SET_SCHOOLS';
