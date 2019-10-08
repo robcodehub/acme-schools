@@ -100,8 +100,10 @@
     const fetchSchools = async() => store.dispatch({type: SET_SCHOOLS, schools: (await axios.get('/api/schools')).data})
 
 
-
-    const connect = (Component) => {
+//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+//THIS IS TO BE REMOVED AND REPLACED WITH UPDATED REACT-REDUX CONNECT COMPONENT
+//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+    const connectOld = (Component) => {
       class Connected extends React.Component {
         constructor() {
           super();
@@ -121,6 +123,11 @@
     }
       return Connected;
     }
+
+    //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+    //XXXXXXXXXXXXXXXX END REMOVED CONNECT CODE XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+    //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
         //STEP 2 - BUILD FRONT END FORM AND BUTTONS ETC.
     // keep your redux store as simple as possible, a list of students, and schools will be suffice
     //USE CDNS FOR REDUX ETC.
@@ -150,7 +157,7 @@ const AddStudentForm = () => {
 
 
 //HOME COMPONENT
-const Home = connect(({students, schools}) => {
+const Home = connectOld(({students, schools}) => {
   return (
     <div>
       <br /> <br />
@@ -162,7 +169,7 @@ const Home = connect(({students, schools}) => {
 
 
 //SCHOOLS COMPONENT
-const Schools = connect(({ schools }) => {
+const Schools = connectOld(({ schools }) => {
   console.log(schools);
   return (
     <div>
@@ -175,7 +182,7 @@ const Schools = connect(({ schools }) => {
 
 
 //STUDENTS COMPONENT
-const Students = connect(({ students }) => {
+const Students = connectOld(({ students }) => {
   console.log(students);
   return (
     <div>
@@ -190,7 +197,7 @@ const Students = connect(({ students }) => {
 
 
 //NAV COMPONENT
-const Nav = connect(({ students, schools }) => {
+const Nav = connectOld(({ students, schools }) => {
   return (
     <nav>
       <Link to='/'>Home</Link>
