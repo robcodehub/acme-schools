@@ -9,23 +9,30 @@
     <script src='https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/redux/4.0.4/redux.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/react-redux/7.1.1/react-redux.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/react-router-dom/5.0.1/react-router-dom.js'></script>
-
 
     <style>
       nav {
         display: flex;
         justify-content: space-around;
       }
+
       input {
-        margin: 0.5rem;
-        padding: 0.5rem;
+        margin: 0.2rem;
+        padding: 0.2rem;
         display: flex;
       }
+
       .school-section {
-        border: 0.5rem red solid;
+        border: 0.2rem red solid;
         display: flex;
       }
+
+      div {
+        margin: 0.5rem;
+      }
+
     </style>
 
 </head>
@@ -40,51 +47,118 @@
 
 
   <script type='text/babel'>
+
     const { createStore, combineReducers } = Redux;
+    const { connect } = ReactRedux;
     const { HashRouter, Link, Route } = ReactRouterDOM;
+
     const SET_STUDENTS = 'SET_STUDENTS';
     const DELETE_STUDENT = 'DELETE_STUDENT';
     const SET_SCHOOLS = 'SET_SCHOOLS';
+    const CREATE_STUDENT = 'CREATE_STUDENT';
+
+
+    //ACTION CREATORS
+
+    const createStudent = (payload) => ({
+      type: CREATE_STUDENT,
+      payload
+    });
+
+
+    const mapStateToProps = (state) => {
+      return {
+        students: state.students,
+        schools: state.schools
+      }
+    };
+
+
+    //createStudent: (studentData) => dispatch(createStudent(studentData))
+
+    const mapDispatchToProps = (dispatch) => {
+      return {
+        createStudent: (studentData => dispatch(createStudentThunk(studentData)))
+      }
+    }
+
+
+    //FETCH / DELETE AND ADD STUDENTS
+
+    const fetchStudents = async() => store.dispatch({type: SET_STUDENTS, students: (await axios.get('/api/students')).data})
+
+    const deleteStudent = async(student) => {
+      await axios.delete(`/api/students/${student.id}`);
+      store.dispatch({type: DELETE_STUDENT, student})
+    };
+
+    const createStudentThunk = (studentData) => {
+      return async dispatch => {
+        await axios.post('/api/students/')
+        dispatch(createStudent(studentData))
+    }
+
+
+    //FETCH SCHOOLS
+
+    const fetchSchools = async() => store.dispatch({type: SET_SCHOOLS, schools: (await axios.get('/api/schools')).data})
+
+
     //REDUX STORE STARTS HERE
-    //REDUX - COMBINE REDUCERS
-    const reducer = combineReducers({
-        students: (state = [], action) => {
+
+    //STUDENTS REDUCER
+    const studentReducer = (state = [], action) => {
           if (action.type === SET_STUDENTS) {
             state = action.students;
           } else if (action.type === DELETE_STUDENT) {
             state = state.filter(student => student.id !== action.student.id);
           } return state;
-          },
-          schools: (state = [], action) => {
+          };
+
+    //SCHOOLS REDUCER
+
+   const schoolReducer = (state = [], action) => {
             if (action.type === SET_SCHOOLS) {
             state = action.schools;
           }
           return state;
-        }
+        };
+
+    //REDUX - COMBINE REDUCERS
+    const reducer = combineReducers({
+        students: studentReducer,
+        schools: schoolReducer
         });
+
+
+
     //REDUX - CREATE REDUX STORE
     const store = createStore(reducer);
+
+
     //REDUX / AXIOS - FETCH DATA AND ADD TO STORE
-    //FETCH / DELETE AND ADD STUDENTS
-    const fetchStudents = async() => store.dispatch({type: SET_STUDENTS, students: (await axios.get('/api/students')).data})
-    const deleteStudent = async(student) => {
-      await axios.delete(`/api/students/${student.id}`);
-      store.dispatch({type: DELETE_STUDENT, student})
-    };
-    //FETCH SCHOOLS
-    const fetchSchools = async() => store.dispatch({type: SET_SCHOOLS, schools: (await axios.get('/api/schools')).data})
-    const connect = (Component) => {
+
+
+
+
+
+
+
+    /*const connect = (Component) => {
       class Connected extends React.Component {
         constructor() {
           super();
           this.state = store.getState();
         }
+
       componentWillUnmount(){
         this.unsubscribe();
       }
+
       componentDidMount() {
         this.unsubscribe = store.subscribe(() => this.setState(store.getState()));
       }
+
       render() {
         return (
           <Component {...this.state}{...this.props} />
@@ -93,32 +167,46 @@
     }
       return Connected;
     }
+    */
+
         //STEP 2 - BUILD FRONT END FORM AND BUTTONS ETC.
+
     // keep your redux store as simple as possible, a list of students, and schools will be suffice
     //USE CDNS FOR REDUX ETC.
     //REDUCERS FOR SCHOOLS -
     //REDUCERS FOR STUDENTS - LIST OF STUDENTS AND CURRENT STUDENT
     //COMBINE REDUCERS TO COMBINE THEM
+
     //REDUX PATTERNS - FOCUS ON THESE AND PRACTICE
+
+    //connect(({}), ({}))( () => {} )
+    //Connect(()=>{}, ()=>{}) ( (props) => {});
+    //connect(mapStateToProps, mapDispatchToProps)(Component);
+
+
+
 const AddStudentForm = () => {
   return (
     <div>
-    <form>
-    First Name: <input type="text" />
-    Last Name: <input type="text" />
-    Email: <input type="email" />
-    GPA:  <input type="text" />
-    Enroll at:
-    <select>
-  <option value="Harvard">Harvard</option>
-</select>
-    <button> Save</button>
-    </form>
+      <form>
+        First Name: <input type="text" />
+        Last Name: <input type="text" />
+        Email: <input type="email" />
+        GPA:  <input type="text" />
+        Enroll at:
+        <select>
+        {schools.map(school => <option key={school.id} value={school.id}>{school.name}</option>)}
+    </select>
+        <br />
+        <button> Save</button>
+      </form>
     </div>
   )
-};
+});
+
+//connect()( (props) => {})
 //HOME COMPONENT
-const Home = connect(({students, schools}) => {
+const Home = ({students, schools}) => {
   return (
     <div>
       <br /> <br />
@@ -126,9 +214,13 @@ const Home = connect(({students, schools}) => {
       <AddStudentForm />
     </div>
   )
-})
+};
+
+connect(mapStateToProps()(Home));
+
 //SCHOOLS COMPONENT
-const Schools = connect(({ schools }) => {
+
+const Schools = ({schools})=> {
   console.log(schools);
   return (
     <div>
@@ -137,9 +229,12 @@ const Schools = connect(({ schools }) => {
       {schools.map(school => <div className="school-section" key = {school.id}> {school.name} <img src={school.imageURL} height="200" width="200"/> </div>) }
     </div>
   )
-});
+};
+
+connect(mapStateToProps()(Schools));
+
 //STUDENTS COMPONENT
-const Students = connect(({ students }) => {
+const Students = ({students}) => {
   console.log(students);
   return (
     <div>
@@ -150,29 +245,44 @@ const Students = connect(({ students }) => {
       </div>
     </div>
   )
-});
-//NAV COMPONENT
-const Nav = connect(({ students, schools }) => {
-  return (
+};
+
+connect(mapStateToProps()(Students));
+
+const Nav = ({students, schools}) => {
+  return(
     <nav>
       <Link to='/'>Home</Link>
       <Link to='/api/schools'>Schools ({schools.length}) </Link>
       <Link to='/api/students'>Students ({students.length})</Link>
     </nav>
   )
-})
+  };
+
+  connect(mapStateToProps()(Nav));
+
+
 //CREATE A COMPONENT TO CREATE A NEW STUDENT
+
+
 //REACT MAIN APP CLASS COMPONENT
+
 class App extends React.Component {
+
   constructor() {
     super();
     this.state = {
     }
   }
+
+
 componentDidMount(){
       fetchStudents();
       fetchSchools();
     }
+
+
+
   render() {
     return (
       <HashRouter>
@@ -184,9 +294,14 @@ componentDidMount(){
     )
   }
 }
+
+
+
 ReactDOM.render(<App />, document.querySelector('#root'));
+
+
+
   </script>
 </body>
 
 </html>
-
