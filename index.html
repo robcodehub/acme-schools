@@ -141,35 +141,35 @@ class NewStudentForm extends React.Component {
   }
 
   formChange(ev) {
-    console.log("target name", [ev.target.name])
-    console.log("target value", [ev.target.value])
+    //console.log("target name", [ev.target.name])
+    //console.log("target value", [ev.target.value])
     this.setState({[ev.target.name]: ev.target.value})
-
   }
 
   submitForm(ev) {
     console.log(ev);
     ev.preventDefault()
-    this.props.create(this.state)
+    this.props.createStudent(this.state)
   }
 
 
   render() {
 
     const {firstName, lastName, email, GPA, school} = this.state;
+    const {formChange, submitForm} = this;
 
     return (
       <div>
-        <form id="create-student-form" >
-        First Name: <input type="text" value={firstName} onChange={((ev)=>this.formChange(ev))}/>
-        Last Name: <input type="text" />
-        Email: <input type="email" />
-        GPA:  <input type="text" />
+        <form id="create-student-form" onSubmit={submitForm}>
+        First Name: <input type="text" onChange={formChange}/>
+        Last Name: <input type="text" onChange={formChange}/>
+        Email: <input type="email" onChange={formChange}/>
+        GPA:  <input type="text" onChange={formChange}/>
         Enroll at:
         <select>
           <option value="Harvard">Harvard</option>
         </select>
-        <button onClick={(ev)=> this.create(ev)}> Save</button>
+        <button type="submit"> Save</button>
       </form>
     </div>
     )
@@ -177,7 +177,7 @@ class NewStudentForm extends React.Component {
 
 
 }
-
+/*
 const _AddStudentForm = ({students, schools}) => {
 
   //const mappedSchools = schools.map(school => <option key={school.id} value={school.id}>{school.name}</option>);
@@ -199,7 +199,7 @@ const _AddStudentForm = ({students, schools}) => {
   )
 };
 
-/*
+
 const AddStudentForm = connect(({students, schools}) => {
   return {
     students,
