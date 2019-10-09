@@ -154,9 +154,10 @@ class NewStudentForm extends React.Component {
 
 
   render() {
-
+    //const {schools} = this.props;
     const {firstName, lastName, email, GPA, school} = this.state;
     const {formChange, submitForm} = this;
+
 
     return (
       <div>
@@ -168,6 +169,8 @@ class NewStudentForm extends React.Component {
         Enroll at:
         <select>
           <option value="Harvard">Harvard</option>
+          {//{schools.map(school => <option key={school.id} value={school.id} name={school.name}>{school.name}</option>)}
+          }
         </select>
         <button type="submit"> Save</button>
       </form>
@@ -219,7 +222,7 @@ const AddStudentForm = connect(({students, schools}) => {
     schools
   }, (dispatch) => {
     return {
-      create: (student) => dispatch(createStudent(student))
+      createStudent: (student) => dispatch(createStudent(student))
     }
   }
 })(NewStudentForm)
