@@ -136,20 +136,50 @@ class NewStudentForm extends React.Component {
       GPA: "",
       school: ""
     }
+    this.submitForm = this.submitForm.bind(this);
+    this.formChange = this.formChange.bind(this);
   }
+
+  formChange(ev) {
+    console.log("target name", ev.target.name)
+    console.log("target value", ev.target.value)
+
+  }
+
+  submitForm(ev) {
+    ev.preventDefault()
+    this.props.create(this.state)
+  }
+
 
   render() {
+
+    const {firstName, lastName, email, GPA, school} = this.state;
+
     return (
       <div>
-
-
-      </div>
+        <form>
+        First Name: <input type="text" />
+        Last Name: <input type="text" />
+        Email: <input type="email" />
+        GPA:  <input type="text" />
+        Enroll at:
+        <select>
+          <option value="Harvard">Harvard</option>
+        </select>
+        <button> Save</button>
+      </form>
+    </div>
     )
   }
+
 
 }
 
 const _AddStudentForm = ({students, schools}) => {
+
+  //const mappedSchools = schools.map(school => <option key={school.id} value={school.id}>{school.name}</option>);
+
   return (
     <div>
       <form>
@@ -160,7 +190,7 @@ const _AddStudentForm = ({students, schools}) => {
         Enroll at:
         <select>
           <option value="Harvard">Harvard</option>
-        </select>
+    </select>
         <button> Save</button>
       </form>
     </div>
