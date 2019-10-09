@@ -50,6 +50,11 @@
     const CREATE_STUDENT = 'CREATE_STUDENT'
 
 
+    //ACTION CREATORS
+
+
+
+
     //=========START REDUX STORE=================
     //===========================================
 
@@ -60,6 +65,8 @@
               state = action.students;
             } else if (action.type === DELETE_STUDENT) {
               state = state.filter(student => student.id !== action.student.id);
+          } else if (action.type === CREATE_STUDENT) {
+            return [...state, action.student]
           }
           return state;
     };
@@ -100,10 +107,10 @@
 
     //=============================================
     //CREATE CREATESTUDENT NEXT
-    //
-    //
-    //
-    //
+    const createStudent = async(student) => {
+      await axios.post('/api/students', student).data
+      store.dispatch({type: CREATE_STUDENT, student})
+    }
     //=============================================
 
     //FETCH SCHOOLS
@@ -119,6 +126,28 @@
     //COMBINE REDUCERS TO COMBINE THEM
     //REDUX PATTERNS - FOCUS ON THESE AND PRACTICE
 
+class NewStudentForm extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      firstName: "",
+      lastName: "",
+      email: "",
+      GPA: "",
+      school: ""
+    }
+  }
+
+  render() {
+    return (
+      <div>
+
+
+      </div>
+    )
+  }
+
+}
 
 const _AddStudentForm = ({students, schools}) => {
   return (
